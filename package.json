@@ -1,0 +1,23 @@
+{
+  "name": "assai",
+  "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/TimeLord2010/assai",
+    "type": "git"
+  },
+  "description": "A simple mongodb wrapper to make mongo even easier to work with.",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node --env-file=.env index.mjs",
+    "test": "node --test"
+  },
+  "keywords": [
+    "mongodb",
+    "orm"
+  ],
+  "author": "Vinícius Gabriel",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^6.5.0"
+  }
+}

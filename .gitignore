@@ -1,0 +1,9 @@
+# dependency
+node_modules
+
+# OS
+.DS_Store
+
+# secret
+.env
+!.env.example
