@@ -1,3 +1,4 @@
+export * from './rename_find_options.mjs'
 export * from './rename_to_dev_id.mjs'
 export * from './rename_to_mongo_id.mjs'
 
