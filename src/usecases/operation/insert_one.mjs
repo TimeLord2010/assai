@@ -1,5 +1,5 @@
 import { Collection, ObjectId } from 'mongodb'
-import { stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
 
 /**
  * @template {import('../../types.js').MongoDocument} T
@@ -8,6 +8,7 @@ import { stringsIntoId } from '../transformers/index.mjs'
  * @param {() => Promise<Collection<T>>} param.getCollection
  */
 export async function insertOne({ doc, getCollection }) {
+    renameToMongoId(doc)
     stringsIntoId(doc)
     const col = await getCollection()
     const result = await col.insertOne(

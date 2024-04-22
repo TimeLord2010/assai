@@ -13,7 +13,7 @@ import {
  * @param {object} parameter
  * @param {() => Promise<Collection<T>>} parameter.getCollection
  * @param {import('mongodb').Filter<T>} parameter.query
- * @param {import('../../types.js').FindOptions<T, K>} parameter.options
+ * @param {import('../../types.js').FindOptions<T, K>} [parameter.options]
  * @returns {Promise<T[]>}
  */
 export async function find({ getCollection, query, options }) {

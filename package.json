@@ -9,7 +9,7 @@
   "main": "index.mjs",
   "scripts": {
     "start": "node --env-file=.env index.mjs",
-    "test": "node --test"
+    "test": "node --env-file=.env --test"
   },
   "keywords": [
     "mongodb",

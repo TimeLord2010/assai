@@ -6,7 +6,7 @@ import { find } from './find.mjs'
  * @template {import('../../types.js').Projection<T> | undefined} K
  * @param {object} param
  * @param {import('mongodb').Filter<T>} param.query
- * @param {import('../../types.js').FindOptions<T, K>} param.options
+ * @param {import('../../types.js').FindOptions<T, K>} [param.options]
  * @param {() => Promise<Collection<T>>} param.getCollection
  */
 export async function findOne({ query, options, getCollection }) {
