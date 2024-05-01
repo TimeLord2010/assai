@@ -1,8 +1,8 @@
 import { Collection, ObjectId } from 'mongodb'
-import { getMongoClient } from '../src/mongo_client.mjs'
+import { getClient } from '../mongo_client.mjs'
 
 export async function mockGetCollection(collectionName = 'test') {
-    const client = await getMongoClient()
+    const client = await getClient()
     const db = client.db()
     /** @type {Collection<ItestCollection>} */
     const collection = db.collection(collectionName)

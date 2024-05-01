@@ -2,9 +2,9 @@ import { Collection, ObjectId } from 'mongodb'
 import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
 
 /**
- * @template {import('../../types.js').MongoDocument} T
+ * @template {import('../../../types.js').MongoDocument} T
  * @param {object} param
- * @param {import('../../types.js').Optional<T, 'id'>[]} param.docs
+ * @param {import('../../../types.js').Optional<T, 'id'>[]} param.docs
  * @param {() => Promise<Collection<T>>} param.getCollection
  * @returns {Promise<T[]>}
  */

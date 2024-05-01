@@ -1,7 +1,7 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
-import { manageMockRegistry } from '../../../test/manage_mock_registry.mjs'
-import { mockGetCollection } from '../../../test/mock_get_collection.mjs'
+import { manageMockRegistry } from '../test/manage_mock_registry.mjs'
+import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { findOne } from './find_one.mjs'
 
 describe('findOne', () => {

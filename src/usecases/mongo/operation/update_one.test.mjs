@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
 import assert from 'node:assert'
 import { after, describe, it } from 'node:test'
-import { manageMockRegistry } from '../../../test/manage_mock_registry.mjs'
-import { mockGetCollection } from '../../../test/mock_get_collection.mjs'
-import { closeMongoClient } from '../../mongo_client.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
+import { closeClient } from '../mongo_client.mjs'
+import { manageMockRegistry } from '../test/manage_mock_registry.mjs'
+import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { updateOne } from './update_one.mjs'
 
 describe('updateOne', () => {
@@ -14,7 +14,7 @@ describe('updateOne', () => {
     })
 
     after(() => {
-        closeMongoClient()
+        closeClient()
     })
 
     it('should update document using string id', async () => {

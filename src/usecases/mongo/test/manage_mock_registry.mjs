@@ -1,10 +1,9 @@
 import { fakerPT_BR } from '@faker-js/faker'
 import { ObjectId } from 'mongodb'
 import { after, before } from 'node:test'
-import { closeMongoClient } from '../src/mongo_client.mjs'
-import { generateNewId } from '../src/usecases/generate_new_id.mjs'
-import { deleteOne } from '../src/usecases/operation/delete_one.mjs'
-import { insertOne } from '../src/usecases/operation/insert_one.mjs'
+import { generateNewId } from '../generate_new_id.mjs'
+import { closeClient } from '../mongo_client.mjs'
+import { deleteOne, insertOne } from '../operation/index.mjs'
 import { mockGetCollection } from './mock_get_collection.mjs'
 
 /**
@@ -44,7 +43,7 @@ export function manageMockRegistry({ tag, ...rest } = {}, {
                 getCollection: mockGetCollection,
             })
         }
-        await closeMongoClient()
+        await closeClient()
     })
 
     return {

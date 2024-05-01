@@ -2,7 +2,7 @@ import { Collection } from 'mongodb'
 import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
 
 /**
- * @template {import('../../types.js').MongoDocument} T
+ * @template {import('../../../types.js').MongoDocument} T
  * @param {object} params
  * @param {() => Promise<Collection<T>>} params.getCollection
  * @param {import('mongodb').Filter<T>} [params.query]

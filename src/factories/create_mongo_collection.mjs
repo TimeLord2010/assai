@@ -1,9 +1,11 @@
 import { Collection } from 'mongodb'
-import { getMongoClient } from './mongo_client.mjs'
-import { deleteOneOrThrow } from './usecases/operation/additional/index.mjs'
 import {
-    count, deleteMany, deleteOne, find, findOne, insertMany, insertOne, updateMany, updateOne,
-} from './usecases/operation/index.mjs'
+    count, deleteMany, deleteOne,
+    deleteOneOrThrow,
+    find, findOne,
+    getClient,
+    insertMany, insertOne, updateMany, updateOne
+} from '../usecases/mongo/index.mjs'
 
 /**
  * Generates a collection object that automatically manage ObjectId conversion to string.
@@ -13,14 +15,14 @@ import {
  *
  * The connection is cached by default. Use `collectionGetter` and `cachedCollectionGetter` to
  * customize this behavior.
- * @template {import('./types.js').MongoDocument} T
+ * @template {import('../types.js').MongoDocument} T
  * @param {string} name
  * @param {object} [options]
  * @param {IcollectionGetter<T>} [options.collectionGetter]
  * @param {IcollectionGetter<T>} [options.cachableCollectionGetter]
  * @param {string} [options.connectionString]
  */
-export async function getCollection(name, options = {}) {
+export async function createMongoCollection(name, options = {}) {
 
     /** @type {Collection<T> | null} */
     let _collection = null
@@ -41,7 +43,7 @@ export async function getCollection(name, options = {}) {
         }
 
         // Default connection getter
-        const client = await getMongoClient({ connectionString })
+        const client = await getClient({ connectionString })
         let db = client.db()
         /** @type {Collection<T>} */
         _collection = db.collection(name)
@@ -54,29 +56,29 @@ export async function getCollection(name, options = {}) {
          */
         count: async (query = {}) => await count({ query, getCollection }),
         /**
-         * @template {import('./types.js').Projection<T>} K
+         * @template {import('../types.js').Projection<T>} K
          * @param {import('mongodb').Filter<T>} query
-         * @param {import('./types.js').FindOptions<T, K>} options
+         * @param {import('../types.js').FindOptions<T, K>} options
          * @returns {Promise<T[]>}
          */
         find: async (query, options = {}) => await find({ query, options, getCollection }),
         /**
-         * @template {import('./types.js').Projection<T> | undefined} K
+         * @template {import('../types.js').Projection<T> | undefined} K
          * @param {import('mongodb').Filter<T>} query
-         * @param {import('./types.js').FindOptions<T,K>} options
+         * @param {import('../types.js').FindOptions<T,K>} options
          * @returns {Promise<T | null>}
          */
         findOne: async (query, options = {}) => {
             return await findOne({ query, options, getCollection })
         },
         /**
-         * @param {import('./types.js').Optional<T, 'id'>} doc
+         * @param {import('../types.js').Optional<T, 'id'>} doc
          * @returns {Promise<T>}
          */
         insertOne: async (doc) => await insertOne({ doc, getCollection }),
         /**
          *
-         * @param {import('./types.js').Optional<T, 'id'>[]} docs
+         * @param {import('../types.js').Optional<T, 'id'>[]} docs
          * @returns {Promise<T[]>}
          */
         insertMany: async (docs) => await insertMany({ docs, getCollection }),
@@ -111,12 +113,12 @@ export async function getCollection(name, options = {}) {
 }
 
 /**
- * @template {import('./types.js').MongoDocument} T
+ * @template {import('../types.js').MongoDocument} T
  * @callback IcollectionGetter
  * @returns {Promise<Collection<T>>}
  */
 
 /**
- * @template {import('./types.js').MongoDocument} T
- * @typedef {Awaited<ReturnType<typeof getCollection<T>>>} ICollection
+ * @template {import('../types.js').MongoDocument} T
+ * @typedef {Awaited<ReturnType<typeof createMongoCollection<T>>>} ICollection
  */

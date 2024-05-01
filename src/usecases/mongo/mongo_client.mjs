@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { OperationFail } from './data/errors/operation_fail.mjs'
+import { OperationFail } from '../../data/errors/operation_fail.mjs'
 
 /** @type {MongoClient | null} */
 let client = null
@@ -9,7 +9,7 @@ let client = null
  * @param {object} params
  * @param {string} [params.connectionString]
  */
-export async function getMongoClient({
+export async function getClient({
     connectionString,
 } = {}) {
     if (!client) {
@@ -27,7 +27,7 @@ export async function getMongoClient({
     return client
 }
 
-export async function closeMongoClient() {
+export async function closeClient() {
     await client?.close()
     client = null
 }

@@ -1,16 +1,16 @@
 import { fakerPT_BR } from '@faker-js/faker'
 import assert from 'node:assert'
 import { after, before, describe, it } from 'node:test'
-import { mockGetCollection } from '../../../test/mock_get_collection.mjs'
-import { closeMongoClient } from '../../mongo_client.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
+import { closeClient } from '../mongo_client.mjs'
+import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { count } from './count.mjs'
 import { insertMany } from './insert_many.mjs'
 
 describe('count', () => {
     const tag = generateNewId()
     before(async () => {
-        /** @type {import('../../../test/mock_get_collection.mjs').ItestCollection[]} */
+        /** @type {import('../test/mock_get_collection.mjs').ItestCollection[]} */
         const items = []
         for (let i = 0; i < 50; i++) {
             items.push({
@@ -26,7 +26,7 @@ describe('count', () => {
     })
 
     after(async () => {
-        await closeMongoClient()
+        await closeClient()
     })
 
     it('should count all inserted documents', async () => {
