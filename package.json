@@ -19,7 +19,8 @@
   ],
   "files": [
     "index.mjs",
-    "src/"
+    "src/",
+    "!src/**/*.test.mjs"
   ],
   "author": "Vinícius Gabriel",
   "license": "ISC",
