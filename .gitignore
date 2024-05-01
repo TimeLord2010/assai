@@ -4,6 +4,9 @@ node_modules
 # OS
 .DS_Store
 
+# build
+dist/
+
 # secret
 .env*
 !.env.example

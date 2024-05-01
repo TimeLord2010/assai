@@ -5,6 +5,15 @@
         "strictNullChecks": true,
         "module": "ES2022",
         "target": "ES2022",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "declaration": true,
+        "strictPropertyInitialization": true,
+        "lib": [
+            "ES2023"
+        ],
+        "noEmit": false,
+        "emitDeclarationOnly": true,
+        "outDir": "dist"
     }
 }

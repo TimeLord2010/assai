@@ -57,12 +57,14 @@ export async function getCollection(name, options = {}) {
          * @template {import('./types.js').Projection<T>} K
          * @param {import('mongodb').Filter<T>} query
          * @param {import('./types.js').FindOptions<T, K>} options
+         * @returns {Promise<T[]>}
          */
         find: async (query, options = {}) => await find({ query, options, getCollection }),
         /**
          * @template {import('./types.js').Projection<T> | undefined} K
          * @param {import('mongodb').Filter<T>} query
          * @param {import('./types.js').FindOptions<T,K>} options
+         * @returns {Promise<T | null>}
          */
         findOne: async (query, options = {}) => {
             return await findOne({ query, options, getCollection })

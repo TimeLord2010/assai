@@ -1,13 +1,15 @@
 {
   "name": "assai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "url": "https://github.com/TimeLord2010/assai",
     "type": "git"
   },
   "description": "A simple mongodb wrapper to make mongo even easier to work with.",
   "main": "index.mjs",
+  "types": "dist/index.d.mts",
   "scripts": {
+    "prepare": "tsc -p ./jsconfig.prod.json",
     "start": "node --env-file=.env index.mjs",
     "test": "node --env-file=.env --test"
   },
