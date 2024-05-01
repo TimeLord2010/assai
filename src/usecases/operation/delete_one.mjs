@@ -6,6 +6,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  * @param {object} parameter
  * @param {import('mongodb').Filter<T>} parameter.query
  * @param {() => Promise<Collection<T>>} parameter.getCollection
+ * @returns {Promise<boolean>}
  */
 export async function deleteOne({ query, getCollection }) {
     renameToMongoId(query)

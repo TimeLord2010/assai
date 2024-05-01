@@ -71,16 +71,18 @@ export async function getCollection(name, options = {}) {
         },
         /**
          * @param {import('./types.js').Optional<T, 'id'>} doc
-         * @returns {ReturnType<typeof insertOne<T>>}
+         * @returns {Promise<Omit<T, 'id'> & {id: NonNullable<T['id']>;}>}
          */
         insertOne: async (doc) => await insertOne({ doc, getCollection }),
         /**
          *
          * @param {import('./types.js').Optional<T, 'id'>[]} docs
+         * @returns {Promise<(Omit<T, 'id'> & {id: NonNullable<T['id']>;})[]>}
          */
         insertMany: async (docs) => await insertMany({ docs, getCollection }),
         /**
          * @param {import('mongodb').Filter<T>} query
+         * @returns {Promise<boolean>}
          */
         deleteOne: async (query) => await deleteOne({ query, getCollection }),
         /**
