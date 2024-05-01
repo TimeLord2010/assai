@@ -11,7 +11,7 @@ describe('insertOne', () => {
     after(async () => await closeMongoClient())
 
     async function insert(doc) {
-        await insertOne({
+        return await insertOne({
             doc,
             // @ts-ignore
             getCollection: mockGetCollection,

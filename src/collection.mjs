@@ -71,6 +71,7 @@ export async function getCollection(name, options = {}) {
         },
         /**
          * @param {import('./types.js').Optional<T, 'id'>} doc
+         * @returns {ReturnType<typeof insertOne<T>>}
          */
         insertOne: async (doc) => await insertOne({ doc, getCollection }),
         /**
