@@ -4,13 +4,25 @@ import { OperationFail } from './data/errors/operation_fail.mjs'
 /** @type {MongoClient | null} */
 let client = null
 
-export async function getMongoClient() {
+/**
+ *
+ * @param {object} params
+ * @param {string} [params.connectionString]
+ */
+export async function getMongoClient({
+    connectionString,
+} = {}) {
     if (!client) {
-        const DATABASE_URL = process.env.DATABASE_URL
-        if (DATABASE_URL == null) {
-            throw new OperationFail('DATABASE_URL not configured')
+        function getCS() {
+            if (typeof connectionString == 'string') return connectionString
+            const DATABASE_URL = process.env.DATABASE_URL
+            if (DATABASE_URL == null) {
+                throw new OperationFail('DATABASE_URL not configured')
+            }
+            return DATABASE_URL
         }
-        client = await MongoClient.connect(DATABASE_URL)
+        const cs = getCS()
+        client = await MongoClient.connect(cs)
     }
     return client
 }

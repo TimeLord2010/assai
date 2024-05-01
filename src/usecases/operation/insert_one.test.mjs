@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import assert from 'node:assert'
-import { after, before, describe, it } from 'node:test'
+import { after, describe, it } from 'node:test'
 import { mockGetCollection } from '../../../test/mock_get_collection.mjs'
 import { closeMongoClient } from '../../mongo_client.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
@@ -8,14 +8,7 @@ import { insertOne } from './insert_one.mjs'
 
 describe('insertOne', () => {
 
-    before(async () => {
-        // Opening the connection a head of time.
-        await mockGetCollection()
-    })
-
-    after(() => {
-        closeMongoClient()
-    })
+    after(async () => await closeMongoClient())
 
     async function insert(doc) {
         await insertOne({

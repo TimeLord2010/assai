@@ -8,6 +8,8 @@ import { deleteOne } from './delete_one.mjs'
 describe('deleteOne', () => {
     const { id } = manageMockRegistry({
         name: 'Made in heaven',
+    }, {
+        deleteAtEnd: false,
     })
 
     it('should succeed on deleting by using registered id', async () => {

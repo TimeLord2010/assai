@@ -8,16 +8,33 @@ import {
 /**
  * @template {import('./types.js').MongoDocument} T
  * @param {string} name
+ * @param {object} [options]
+ * @param {IcollectionGetter<T>} [options.collectionGetter]
+ * @param {IcollectionGetter<T>} [options.cachedCollectionGetter]
+ * @param {string} [options.connectionString]
  */
-export async function getCollection(name) {
+export async function getCollection(name, options = {}) {
 
     /** @type {Collection<T> | null} */
     let _collection = null
+
     async function getCollection() {
-        if (_collection) {
+        const { connectionString, cachedCollectionGetter, collectionGetter } = options
+
+        // Connection getter from options
+        if (collectionGetter != null) return await collectionGetter()
+
+        // Checking cache
+        if (_collection) return _collection
+
+        // Cache function from options
+        if (cachedCollectionGetter != null) {
+            _collection = await cachedCollectionGetter()
             return _collection
         }
-        const client = await getMongoClient()
+
+        // Default connection getter
+        const client = await getMongoClient({ connectionString })
         let db = client.db()
         /** @type {Collection<T>} */
         _collection = db.collection(name)
@@ -52,7 +69,7 @@ export async function getCollection(name) {
          */
         deleteOne: async (query) => await deleteOne({ query, getCollection }),
         /**
-         * Delets the first document to match the query.
+         * Deletes the first document to match the query.
          * This method will throw an error if no documents were deleted.
          * @param {import('mongodb').Filter<T>} query
          * @throw {@link OperationFail} If not document was deleted
@@ -75,6 +92,12 @@ export async function getCollection(name) {
         updateMany: async (query, update) => await updateMany({ query, update, getCollection })
     }
 }
+
+/**
+ * @template {import('./types.js').MongoDocument} T
+ * @callback IcollectionGetter
+ * @returns {Promise<Collection<T>>}
+ */
 
 /**
  * @template {import('./types.js').MongoDocument} T
