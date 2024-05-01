@@ -6,11 +6,18 @@ import {
 } from './usecases/operation/index.mjs'
 
 /**
+ * Generates a collection object that automatically manage ObjectId conversion to string.
+ *
+ * This method will read the string DATABASE_URL to create a connection. If you have it in another
+ * location, you will need to pass it at `connectionString` property inside the options parameter.
+ *
+ * The connection is cached by default. Use `collectionGetter` and `cachedCollectionGetter` to
+ * customize this behavior.
  * @template {import('./types.js').MongoDocument} T
  * @param {string} name
  * @param {object} [options]
  * @param {IcollectionGetter<T>} [options.collectionGetter]
- * @param {IcollectionGetter<T>} [options.cachedCollectionGetter]
+ * @param {IcollectionGetter<T>} [options.cachableCollectionGetter]
  * @param {string} [options.connectionString]
  */
 export async function getCollection(name, options = {}) {
@@ -19,7 +26,7 @@ export async function getCollection(name, options = {}) {
     let _collection = null
 
     async function getCollection() {
-        const { connectionString, cachedCollectionGetter, collectionGetter } = options
+        const { connectionString, cachableCollectionGetter, collectionGetter } = options
 
         // Connection getter from options
         if (collectionGetter != null) return await collectionGetter()
@@ -28,8 +35,8 @@ export async function getCollection(name, options = {}) {
         if (_collection) return _collection
 
         // Cache function from options
-        if (cachedCollectionGetter != null) {
-            _collection = await cachedCollectionGetter()
+        if (cachableCollectionGetter != null) {
+            _collection = await cachableCollectionGetter()
             return _collection
         }
 

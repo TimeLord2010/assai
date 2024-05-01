@@ -1,12 +1,24 @@
 This is a small package to improve some things that you, as a developer, have to deal with when working with mongo, like:
 
-- [_id](#_id)
-- [ObjectId](#ObjectId)
-- [projection](#projection)
-- [Connection String](#connection-string)
-- [Client Instance]($client-instance)
+- [_id](##_id)
+- [ObjectId](##ObjectId)
+- [projection](##projection)
+- [Connection String](##connection-string)
+- [Client Instance](##client-instance)
 
-# _id
+# Example
+
+```js
+import {getCollection} from "assai"
+
+const collection = await getCollection()
+const docs = await collection.find({}, {limit: 10})
+/**
+ * [{id: "507f1f77bcf86cd799439011", name: "Mario"}, ...]
+ */
+```
+
+## _id
 
 Ever wanted to use just "id" in your collections instead of "_id"?
 
@@ -16,7 +28,7 @@ Every data that enters the database can, optionally, have an "id". In this case,
 
 Also, the methods `updateOne`, `updateMany`, `deleteOne`, `deleteMany`, `findOne` and `find` will also rename the field "id" to "_id".
 
-# ObjectId
+## ObjectId
 
 Another thing that is related to "_id" fields are the `ObjectId`s.
 
@@ -32,7 +44,7 @@ await collection.insertOne({
 Every time you need a new id, you can call the `id` method:
 
 ```js
-const myStringId = driver.id()
+const myStringId = driver.generateNewId()
 ```
 
 One example this could be useful is if have an API endpoint that accepts structured data. And you use these values to query the database. Like so:
@@ -48,7 +60,7 @@ This is fine, but you will have to convert a `string` into a `ObjectId` for each
 
 Instead of carrying this risk, you can use the object as-is and the conversion will be made automatically.
 
-# projection
+## projection
 
 The projection from the native mongodb driver is fine as it is. But there is one thing that is annoying: it can cause your program to fail.
 
@@ -67,24 +79,24 @@ Making projections like that valid:
 }
 ```
 
-# Connection String
+## Connection String
 
 A default environment variable is assumed: DATABASE_URL.
 
 Which makes it easier to start a connection:
 ```js
-const database = await driver.collection('myCollection')
+const database = await getCollection('myCollection')
 ```
 This will read the value from `process.env.DATABASE_URL`.
 
 You can still pass a custom connection string:
 ```js
-const database = await driver.collection('myCollection', {
+const database = await getCollection('myCollection', {
     cs: 'my connection string',
 })
 ```
 
-# Client Instance
+## Client Instance
 
 If you ever worked with serverless, you will notice that you shouldn't open and close a connection everytime your function runs. You need to cache it. The package does this caching for you by default.
 
@@ -113,7 +125,7 @@ router.post('/', (req, res) => {
 You can simply write:
 ```js
 router.post('/', (req, res) => {
-    const col = driver.collection('myCollection')
+    const col = getCollection('myCollection')
     // Here the connection is opened only if it is not opened already.
     // Further calls to this route won't open a connection.
     await driver.insertOne({
