@@ -6,7 +6,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  * @param {object} param
  * @param {import('../../types.js').Optional<T, 'id'>} param.doc
  * @param {() => Promise<Collection<T>>} param.getCollection
- * @returns {Promise<Omit<T, 'id'> & {id: NonNullable<T['id']>;}>}
+ * @returns {Promise<T>}
  */
 export async function insertOne({ doc, getCollection }) {
     renameToMongoId(doc)
@@ -21,8 +21,7 @@ export async function insertOne({ doc, getCollection }) {
         // @ts-ignore
         id = id.toHexString()
     }
-    return {
-        id,
-        ...doc,
-    }
+
+    // @ts-ignore
+    return { id, ...doc }
 }

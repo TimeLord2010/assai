@@ -7,6 +7,10 @@ export type MongoDocument = {
     [key: string]: any
 }
 
+export type RequiredIfPresent<T, U> = {
+    [P in keyof T]: P extends keyof U ? Required<T[P]> : T[P];
+};
+
 type NonNullProjection<T extends MongoDocument> = Partial<Record<keyof T, 1 | 0>>
 
 export type Projection<T extends MongoDocument> = NonNullProjection<T> | undefined

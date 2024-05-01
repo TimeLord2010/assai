@@ -71,13 +71,13 @@ export async function getCollection(name, options = {}) {
         },
         /**
          * @param {import('./types.js').Optional<T, 'id'>} doc
-         * @returns {Promise<Omit<T, 'id'> & {id: NonNullable<T['id']>;}>}
+         * @returns {Promise<T>}
          */
         insertOne: async (doc) => await insertOne({ doc, getCollection }),
         /**
          *
          * @param {import('./types.js').Optional<T, 'id'>[]} docs
-         * @returns {Promise<(Omit<T, 'id'> & {id: NonNullable<T['id']>;})[]>}
+         * @returns {Promise<T[]>}
          */
         insertMany: async (docs) => await insertMany({ docs, getCollection }),
         /**
