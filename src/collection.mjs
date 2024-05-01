@@ -2,7 +2,7 @@ import { Collection } from 'mongodb'
 import { getMongoClient } from './mongo_client.mjs'
 import { deleteOneOrThrow } from './usecases/operation/additional/index.mjs'
 import {
-    count, deleteMany, deleteOne, find, findOne, insertOne, updateMany, updateOne,
+    count, deleteMany, deleteOne, find, findOne, insertMany, insertOne, updateMany, updateOne,
 } from './usecases/operation/index.mjs'
 
 /**
@@ -71,6 +71,11 @@ export async function getCollection(name, options = {}) {
          * @param {import('./types.js').Optional<T, 'id'>} doc
          */
         insertOne: async (doc) => await insertOne({ doc, getCollection }),
+        /**
+         *
+         * @param {import('./types.js').Optional<T, 'id'>[]} docs
+         */
+        insertMany: async (docs) => await insertMany({ docs, getCollection }),
         /**
          * @param {import('mongodb').Filter<T>} query
          */
