@@ -17,10 +17,7 @@ import {
  * customize this behavior.
  * @template {import('../types.js').MongoDocument} T
  * @param {string} name
- * @param {object} [options]
- * @param {IcollectionGetter<T>} [options.collectionGetter]
- * @param {IcollectionGetter<T>} [options.cachableCollectionGetter]
- * @param {string} [options.connectionString]
+ * @param {IcreateCollectionOptions<T>} [options]
  */
 export async function createMongoCollection(name, options = {}) {
 
@@ -116,6 +113,23 @@ export async function createMongoCollection(name, options = {}) {
  * @template {import('../types.js').MongoDocument} T
  * @callback IcollectionGetter
  * @returns {Promise<Collection<T>>}
+ */
+
+/**
+ * @template {import('../types.js').MongoDocument} T
+ * @typedef {object} IcreateCollectionOptions
+ * @property {IcollectionGetter<T>} [options.collectionGetter]
+ * A custom function to get the collection object from mongodb driver.
+ *
+ * This will be not be cached and will be used on every operation such as insertOne or findOne.
+ *
+ * If you wish to cache the collection object, see `cachableCollectionGetter`.
+ *
+ * @property {IcollectionGetter<T>} [options.cachableCollectionGetter]
+ * Same as `collectionGetter`. But the object is cached.
+ *
+ * @property {string} [options.connectionString]
+ * A custom connection string. If none is given, `process.env.DATABASE_URL` will be used.
  */
 
 /**
