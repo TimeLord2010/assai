@@ -9,9 +9,9 @@ This is a small package to improve some things that you, as a developer, have to
 # Example
 
 ```js
-import {getCollection} from "assai"
+import {createMongoCollection} from "assai"
 
-const collection = await getCollection()
+const collection = await createMongoCollection()
 const docs = await collection.find({}, {limit: 10})
 /**
  * [{id: "507f1f77bcf86cd799439011", name: "Mario"}, ...]
@@ -85,13 +85,13 @@ A default environment variable is assumed: DATABASE_URL.
 
 Which makes it easier to start a connection:
 ```js
-const database = await getCollection('myCollection')
+const database = await createMongoCollection('myCollection')
 ```
 This will read the value from `process.env.DATABASE_URL`.
 
 You can still pass a custom connection string:
 ```js
-const database = await getCollection('myCollection', {
+const database = await createMongoCollection('myCollection', {
     cs: 'my connection string',
 })
 ```
@@ -125,7 +125,7 @@ router.post('/', (req, res) => {
 You can simply write:
 ```js
 router.post('/', (req, res) => {
-    const col = getCollection('myCollection')
+    const col = createMongoCollection('myCollection')
     // Here the connection is opened only if it is not opened already.
     // Further calls to this route won't open a connection.
     await driver.insertOne({
