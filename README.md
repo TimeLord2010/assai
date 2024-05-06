@@ -41,7 +41,7 @@ await collection.insertOne({
 })
 ```
 
-Every time you need a new id, you can call the `id` method:
+Every time you need a new id, you can call the `generateNewId` method:
 
 ```js
 import { mongo } from 'assai'
@@ -94,7 +94,7 @@ This will read the value from `process.env.DATABASE_URL`.
 You can still pass a custom connection string:
 ```js
 const database = await createMongoCollection('myCollection', {
-    cs: 'my connection string',
+    connectionString: 'my connection string',
 })
 ```
 
