@@ -9,7 +9,7 @@ This is a small package to improve some things that you, as a developer, have to
 # Example
 
 ```js
-import {createMongoCollection} from "assai"
+import { createMongoCollection } from "assai"
 
 const collection = await createMongoCollection()
 const docs = await collection.find({}, {limit: 10})
@@ -44,7 +44,9 @@ await collection.insertOne({
 Every time you need a new id, you can call the `id` method:
 
 ```js
-const myStringId = driver.generateNewId()
+import { mongo } from 'assai'
+
+const myStringId = mongo.generateNewId()
 ```
 
 One example this could be useful is if have an API endpoint that accepts structured data. And you use these values to query the database. Like so:
@@ -106,19 +108,21 @@ You could also do this for simplicity, so instead of:
 let cachedClient = null
 export async function getDb () {
     if (cachedClient == null) {
-        const client = await MongoClient('...')
+        const client = await MongoClient.connect('...')
         cachedClient = client
     }
     return cachedClient.db()
 }
 
 // router.js
-import {getDb} from 'db.js'
+import { getDb } from 'db.js'
 
 router.post('/', (req, res) => {
     const db = await getDb()
-    const col db.collection('myCollection')
-    // ...
+    const col = db.collection('myCollection')
+    await col.insertOne({
+        name: req.body.name,
+    })
 })
 ```
 
@@ -128,7 +132,7 @@ router.post('/', (req, res) => {
     const col = createMongoCollection('myCollection')
     // Here the connection is opened only if it is not opened already.
     // Further calls to this route won't open a connection.
-    await driver.insertOne({
+    await col.insertOne({
         name: req.body.name,
     })
     // ...
