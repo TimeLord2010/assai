@@ -49,6 +49,10 @@ export async function createMongoCollection(name, options = {}) {
 
     return {
         /**
+         * Returns the native driver.
+         */
+        getCollection,
+        /**
          * @param {import('mongodb').Filter<T>} query
          */
         count: async (query = {}) => await count({ query, getCollection }),
