@@ -1,11 +1,13 @@
 {
     "extends": "./jsconfig.json",
     "include": [
-        "**/*.mjs"
+        "src/**/*.mjs",
+        "./index.mjs"
     ],
     "exclude": [
+        "dist",
         "test/**/*",
-        "**/*.test.mjs",
+        "src/**/*.test.mjs",
         "node_modules"
     ]
 }

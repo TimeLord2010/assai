@@ -10,10 +10,11 @@
         "declaration": true,
         "strictPropertyInitialization": true,
         "lib": [
-            "ES2023"
+            "ES2022"
         ],
+        "baseUrl": "./",
         "noEmit": false,
         "emitDeclarationOnly": true,
         "outDir": "dist"
-    }
+    },
 }

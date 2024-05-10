@@ -1,6 +1,6 @@
 {
   "name": "assai",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "repository": {
     "url": "https://github.com/TimeLord2010/assai",
     "type": "git"
@@ -9,7 +9,7 @@
   "main": "index.mjs",
   "types": "dist/index.d.mts",
   "scripts": {
-    "postinstall": "tsc -p ./jsconfig.prod.json",
+    "prepare": "tsc -p ./jsconfig.prod.json",
     "start": "node --env-file=.env index.mjs",
     "test": "node --env-file=.env --test"
   },
