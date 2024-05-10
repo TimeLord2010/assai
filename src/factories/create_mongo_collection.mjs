@@ -19,7 +19,7 @@ import {
  * @param {string} name
  * @param {IcreateCollectionOptions<T>} [options]
  */
-export async function createMongoCollection(name, options = {}) {
+export function createMongoCollection(name, options = {}) {
 
     /** @type {Collection<T> | null} */
     let _collection = null
