@@ -20,16 +20,18 @@ export function manageMockRegistry({ tag, ...rest } = {}, {
     const name = rest.name ?? fakerPT_BR.person.fullName()
 
     before(async () => {
+        /** @type {import('./mock_get_collection.mjs').ItestCollection} */
+        const doc = {
+            id,
+            createdAt: new Date(),
+            tag,
+            name: name,
+            ...rest,
+        }
         await insertOne({
             // @ts-ignore
             getCollection: mockGetCollection,
-            doc: {
-                id,
-                createdAt: new Date(),
-                tag,
-                name: name,
-                ...rest,
-            },
+            doc: doc,
         })
     })
 
