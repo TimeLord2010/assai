@@ -14,5 +14,5 @@ export async function updateMany({ query, update, getCollection }) {
     stringsIntoId(update)
     const col = await getCollection()
     const r = await col.updateMany(query, update)
-    return r.matchedCount > 0
+    return r
 }
