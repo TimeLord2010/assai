@@ -12,5 +12,5 @@ export async function deleteMany({ query, getCollection }) {
     stringsIntoId(query)
     const col = await getCollection()
     const r = await col.deleteMany(query)
-    return r.deletedCount > 0
+    return r.deletedCount
 }
