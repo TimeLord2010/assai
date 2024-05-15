@@ -31,6 +31,7 @@ describe('findOne', () => {
         const savedDoc = await _findOne({ id })
         assert(savedDoc)
         assert.equal(savedDoc.id, id)
+        assert(savedDoc._id === undefined)
         assert.equal(savedDoc.name, name)
         const posts = savedDoc.posts
         assert.deepEqual(posts[0], {
