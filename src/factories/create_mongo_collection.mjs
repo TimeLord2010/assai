@@ -25,7 +25,10 @@ export function createMongoCollection(name, options = {}) {
     let _collection = null
 
     async function getCollection() {
-        const { connectionString, cachableCollectionGetter, collectionGetter } = options
+        const {
+            connectionString, dbName, options: createOptions,
+            cachableCollectionGetter, collectionGetter
+        } = options
 
         // Connection getter from options
         if (collectionGetter != null) return await collectionGetter()
@@ -41,7 +44,7 @@ export function createMongoCollection(name, options = {}) {
 
         // Default connection getter
         const client = await getClient({ connectionString })
-        let db = client.db()
+        let db = client.db(dbName, createOptions)
         /** @type {Collection<T>} */
         _collection = db.collection(name)
         return _collection
@@ -129,11 +132,25 @@ export function createMongoCollection(name, options = {}) {
  *
  * If you wish to cache the collection object, see `cachableCollectionGetter`.
  *
+ * Example:
+ * ```js
+ * collectionGetter: async () => await getMyCollection()
+ * ```
+ *
  * @property {IcollectionGetter<T>} [options.cachableCollectionGetter]
  * Same as `collectionGetter`. But the object is cached.
  *
+ * Example:
+ * ```js
+ * cachableCollectionGetter: async () => await getMyCollection()
+ * ```
+ *
  * @property {string} [options.connectionString]
  * A custom connection string. If none is given, `process.env.DATABASE_URL` will be used.
+ *
+ * @property {string} [dbName] The name of the database.
+ *
+ * @property {import('mongodb').DbOptions} [options] The options used when initializing client.
  */
 
 /**
