@@ -9,7 +9,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  * @returns {Promise<T>}
  */
 export async function insertOne({ doc, getCollection }) {
-    renameToMongoId(doc)
+    doc = renameToMongoId(doc)
     stringsIntoId(doc)
     const col = await getCollection()
     const result = await col.insertOne(

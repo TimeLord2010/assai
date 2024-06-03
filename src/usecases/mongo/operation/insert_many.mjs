@@ -10,9 +10,14 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  */
 export async function insertMany({ docs, getCollection }) {
     if (docs.length == 0) return []
-    for (const doc of docs) {
-        renameToMongoId(doc)
-        stringsIntoId(doc)
+
+    // We need to clone the array to prevent the function from changing the original input object.
+    // This is necessary since we change the objects inside the array to rename the "id" to "_id".
+    docs = [...docs]
+
+    for (let i = 0; i < docs.length; i++) {
+        docs[i] = renameToMongoId(docs[i])
+        stringsIntoId(docs[i])
     }
     const col = await getCollection()
     const result = await col.insertMany(

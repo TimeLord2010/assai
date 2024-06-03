@@ -15,6 +15,9 @@ export function stringsIntoId(obj) {
     if (isObjectIdString(obj)) return new ObjectId(obj)
     if (typeof obj != 'object') return obj
     if (Array.isArray(obj)) {
+        // We clone the array to prevent the original array reference to change.
+        obj = [...obj]
+
         for (let i = 0; i < obj.length; i++) {
             const item = obj[i]
             obj[i] = stringsIntoId(item)

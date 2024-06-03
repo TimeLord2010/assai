@@ -9,7 +9,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  * @param {() => Promise<Collection<T>>} param.getCollection
  */
 export async function updateOne({ query, update, getCollection }) {
-    renameToMongoId(query)
+    query = renameToMongoId(query)
     stringsIntoId(query)
     stringsIntoId(update)
     const col = await getCollection()

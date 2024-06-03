@@ -17,8 +17,8 @@ import {
  * @returns {Promise<T[]>}
  */
 export async function find({ getCollection, query, options }) {
-    renameToMongoId(query)
-    renameFindOptions(options)
+    query = renameToMongoId(query)
+    options = renameFindOptions(options)
 
     stringsIntoId(query)
 

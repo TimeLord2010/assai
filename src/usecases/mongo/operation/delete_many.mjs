@@ -8,7 +8,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  * @param {() => Promise<Collection<T>>} parameter.getCollection
  */
 export async function deleteMany({ query, getCollection }) {
-    renameToMongoId(query)
+    query = renameToMongoId(query)
     stringsIntoId(query)
     const col = await getCollection()
     const r = await col.deleteMany(query)

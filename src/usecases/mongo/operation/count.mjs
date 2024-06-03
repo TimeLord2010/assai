@@ -8,7 +8,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  * @param {import('mongodb').Filter<T>} [params.query]
  */
 export async function count({ getCollection, query }) {
-    renameToMongoId(query)
+    query = renameToMongoId(query)
     stringsIntoId(query)
 
     const col = await getCollection()
