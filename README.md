@@ -138,3 +138,10 @@ router.post('/', (req, res) => {
     // ...
 })
 ```
+
+
+## Remarks
+
+This project can contain bugs and should not be used in production applications.
+
+If you do find a bug, please report it.
