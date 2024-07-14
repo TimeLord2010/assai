@@ -23,11 +23,12 @@ export function createMongoCollection(name, options = {}) {
 
     /** @type {Collection<T> | null} */
     let _collection = null
+    const { validator } = options
 
     async function getCollection() {
         const {
             connectionString, dbName, options: createOptions,
-            cachableCollectionGetter, collectionGetter
+            cachableCollectionGetter, collectionGetter,
         } = options
 
         // Connection getter from options
@@ -48,6 +49,31 @@ export function createMongoCollection(name, options = {}) {
         /** @type {Collection<T>} */
         _collection = db.collection(name)
         return _collection
+    }
+
+    /**
+     *
+     * @param {import('../types.js').Optional<T, 'id'>} doc
+     */
+    function validate(doc) {
+        if (validator == null) {
+            return
+        }
+        if (typeof validator == 'function') {
+            return validator(doc)
+        } else {
+            for (const [field, fieldValidator] of Object.entries(validator)) {
+                if (!fieldValidator) {
+                    continue
+                }
+                const value = fieldValidator(doc[field])
+                if (value) {
+                    // @ts-ignore
+                    doc[field] = value
+                }
+            }
+            return doc
+        }
     }
 
     return {
@@ -79,7 +105,16 @@ export function createMongoCollection(name, options = {}) {
          * @param {import('../types.js').Optional<T, 'id'>} doc
          * @returns {Promise<T>}
          */
-        insertOne: async (doc) => await insertOne({ doc, getCollection }),
+        insertOne: async (doc) => {
+            const result = validate(doc)
+            if (result) {
+                doc = result
+            }
+            return await insertOne({
+                doc,
+                getCollection,
+            })
+        },
         /**
          *
          * @param {import('../types.js').Optional<T, 'id'>[]} docs
@@ -150,7 +185,25 @@ export function createMongoCollection(name, options = {}) {
  *
  * @property {string} [dbName] The name of the database.
  *
- * @property {import('mongodb').DbOptions} [options] The options used when initializing client.
+ * @property {import('mongodb').DbOptions} [options] The options used when initializing the client.
+ *
+ * @property {IfieldValidator<T> | IgenericValidator<T>} [validator]
+ */
+
+/**
+ * @template T
+ * @typedef {Partial<Record<keyof T, ((prop: any) => any)>>} IfieldValidator
+ */
+
+/**
+ * @template T
+ * @callback IgenericValidator
+ * The validator function used in insert operations.
+ * This function should throw an exception if the validation fails.
+ * @param {*} doc
+ * @returns {T | null} The validator can return the desired document. Or null.
+ *
+ * If null is returned, the input parameter will be used normaly in inserts.
  */
 
 /**
