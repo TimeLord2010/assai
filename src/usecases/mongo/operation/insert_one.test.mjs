@@ -1,14 +1,14 @@
 import { ObjectId } from 'mongodb'
 import assert from 'node:assert'
-import { after, describe, it } from 'node:test'
+import { describe, it } from 'node:test'
+import { manageMockDatabase } from '../../../__test/manage_mock_database.mjs'
+import { mockGetCollection } from '../../../__test/mock_get_collection.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
-import { closeClient } from '../mongo_client.mjs'
-import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { insertOne } from './insert_one.mjs'
 
 describe('insertOne', () => {
 
-    after(async () => await closeClient())
+    manageMockDatabase()
 
     async function insert(doc) {
         return await insertOne({

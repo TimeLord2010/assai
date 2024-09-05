@@ -1,16 +1,20 @@
 import { fakerPT_BR } from '@faker-js/faker'
 import assert from 'node:assert'
-import { after, before, describe, it } from 'node:test'
+import { before, describe, it } from 'node:test'
+import { manageMockDatabase } from '../../../__test/manage_mock_database.mjs'
+import { mockGetCollection } from '../../../__test/mock_get_collection.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
-import { closeClient } from '../mongo_client.mjs'
-import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { count } from './count.mjs'
 import { insertMany } from './insert_many.mjs'
 
-describe('count', () => {
+describe('count', {
+    timeout: 2000,
+}, () => {
+    manageMockDatabase()
+
     const tag = generateNewId()
     before(async () => {
-        /** @type {import('../test/mock_get_collection.mjs').ItestCollection[]} */
+        /** @type {import('../../../__test/mock_get_collection.mjs').ItestCollection[]} */
         const items = []
         for (let i = 0; i < 50; i++) {
             items.push({
@@ -23,10 +27,6 @@ describe('count', () => {
             // @ts-ignore
             getCollection: mockGetCollection,
         })
-    })
-
-    after(async () => {
-        await closeClient()
     })
 
     it('should count all inserted documents', async () => {

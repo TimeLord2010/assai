@@ -28,6 +28,10 @@ export async function getClient({
 }
 
 export async function closeClient() {
+    if (client == null) {
+        return false
+    }
     await client?.close()
     client = null
+    return true
 }

@@ -1,19 +1,19 @@
 import { fakerPT_BR } from '@faker-js/faker'
 import { ObjectId } from 'mongodb'
 import assert from 'node:assert'
-import { after, describe, it } from 'node:test'
+import { describe, it } from 'node:test'
+import { manageMockDatabase } from '../../../__test/manage_mock_database.mjs'
+import { mockGetCollection } from '../../../__test/mock_get_collection.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
-import { closeClient } from '../mongo_client.mjs'
-import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { insertMany } from './insert_many.mjs'
 
 describe('insertMany', () => {
 
-    after(async () => await closeClient())
+    manageMockDatabase()
 
     it('should succeed at inserting multiple data', async () => {
         const tag = generateNewId()
-        /** @type {import('../test/mock_get_collection.mjs').ItestCollection[]} */
+        /** @type {import('../../../__test/mock_get_collection.mjs').ItestCollection[]} */
         const items = []
         for (let i = 0; i < 50; i++) {
             items.push({

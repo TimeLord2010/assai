@@ -1,20 +1,18 @@
 import { ObjectId } from 'mongodb'
 import assert from 'node:assert'
-import { after, describe, it } from 'node:test'
+import { describe, it } from 'node:test'
+import { manageMockDatabase } from '../../../__test/manage_mock_database.mjs'
+import { manageMockRegistry } from '../../../__test/manage_mock_registry.mjs'
+import { mockGetCollection } from '../../../__test/mock_get_collection.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
-import { closeClient } from '../mongo_client.mjs'
-import { manageMockRegistry } from '../test/manage_mock_registry.mjs'
-import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { updateOne } from './update_one.mjs'
 
 describe('updateOne', () => {
 
+    manageMockDatabase()
+
     const { id } = manageMockRegistry({
         name: 'Jolyne Cujoh',
-    })
-
-    after(() => {
-        closeClient()
     })
 
     it('should update document using string id', async () => {

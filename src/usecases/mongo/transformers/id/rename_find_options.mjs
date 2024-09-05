@@ -6,7 +6,8 @@ import { renameToMongoId } from './index.mjs'
  */
 export function renameFindOptions(options = {}) {
     return {
+        ...options,
         projection: renameToMongoId(options.projection),
-        sort: renameToMongoId(options.sort)
+        sort: renameToMongoId(options.sort),
     }
 }

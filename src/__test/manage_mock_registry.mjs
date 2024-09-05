@@ -1,9 +1,10 @@
 import { fakerPT_BR } from '@faker-js/faker'
 import { ObjectId } from 'mongodb'
 import { after, before } from 'node:test'
-import { generateNewId } from '../generate_new_id.mjs'
-import { closeClient } from '../mongo_client.mjs'
-import { deleteOne, insertOne } from '../operation/index.mjs'
+import { generateNewId } from '../usecases/mongo/generate_new_id.mjs'
+import { closeClient } from '../usecases/mongo/mongo_client.mjs'
+import { deleteOne } from '../usecases/mongo/operation/delete_one.mjs'
+import { insertOne } from '../usecases/mongo/operation/insert_one.mjs'
 import { mockGetCollection } from './mock_get_collection.mjs'
 
 /**

@@ -11,7 +11,7 @@
   "scripts": {
     "prepare": "rm -rf dist && tsc -p ./jsconfig.prod.json",
     "start": "node --env-file=.env index.mjs",
-    "test": "node --env-file=.env --test"
+    "test": "node --test"
   },
   "keywords": [
     "mongodb",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@types/node": "^20.12.7",
+    "mongodb-memory-server": "^10.0.0",
     "typescript": "^5.4.5"
   }
 }

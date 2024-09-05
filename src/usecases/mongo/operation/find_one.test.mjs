@@ -1,11 +1,14 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
+import { manageMockDatabase } from '../../../__test/manage_mock_database.mjs'
+import { manageMockRegistry } from '../../../__test/manage_mock_registry.mjs'
+import { mockGetCollection } from '../../../__test/mock_get_collection.mjs'
 import { generateNewId } from '../generate_new_id.mjs'
-import { manageMockRegistry } from '../test/manage_mock_registry.mjs'
-import { mockGetCollection } from '../test/mock_get_collection.mjs'
 import { findOne } from './find_one.mjs'
 
 describe('findOne', () => {
+
+    manageMockDatabase()
 
     const userId = generateNewId()
     const { id, name } = manageMockRegistry({
