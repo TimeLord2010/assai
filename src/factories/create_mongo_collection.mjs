@@ -141,13 +141,19 @@ export function createMongoCollection(name, options = {}) {
         /**
          * @param {import('mongodb').Filter<T>} query
          * @param {import('mongodb').UpdateFilter<T>} update
+         * @param {import('mongodb').UpdateOptions} [options]
          */
-        updateOne: async (query, update) => await updateOne({ query, update, getCollection }),
+        updateOne: async (query, update, options) => await updateOne({
+            query, update, options, getCollection,
+        }),
         /**
          * @param {import('mongodb').Filter<T>} query
          * @param {import('mongodb').UpdateFilter<T>} update
+         * @param {import('mongodb').UpdateOptions} [options]
          */
-        updateMany: async (query, update) => await updateMany({ query, update, getCollection })
+        updateMany: async (query, update, options) => await updateMany({
+            query, update, options, getCollection,
+        })
     }
 }
 

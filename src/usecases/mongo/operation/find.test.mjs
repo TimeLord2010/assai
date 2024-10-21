@@ -22,6 +22,7 @@ describe('find', () => {
     it('should be able to limit the docs returned', async () => {
         const docs = await find({
             query: {},
+            // @ts-ignore
             getCollection: mockGetCollection,
             options: {
                 limit: 1,
