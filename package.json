@@ -1,6 +1,6 @@
 {
   "name": "assai",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "repository": {
     "url": "https://github.com/TimeLord2010/assai",
     "type": "git"
@@ -28,7 +28,7 @@
   "author": "Vinícius Gabriel",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^6.5.0"
+    "mongodb": "^6.17.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
