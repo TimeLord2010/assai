@@ -167,13 +167,22 @@ export function createMongoCollection(name, options = {}) {
  *
  * @property {import('mongodb').DbOptions} [options] The options used when initializing the client.
  *
- * @property {ItimestampConfiguration} [timestamps]
+ * @property {ItimestampConfiguration} [timestamps] Configured how the package manages 'createdAt'
+ * and 'updatedAt'.
  */
 
 /**
  * @typedef {object} ItimestampConfiguration
  * @property {'fromId' | 'generate' | 'none'} createdAt
+ * Changes how the 'createdAt' field is managed:
+ * - 'fromId': the field is generated when you use `find` or `findOne` and is calculated using _id.
+ * But it does not exist in the database.
+ * - 'generate': the field is generated when you use `insertOne` or `insertMany`. The value exist in
+ * the database.
+ * - 'none': no value is generated at any time.
  * @property {'generate' | 'none'} updatedAt
+ * - 'generate': the value is generated when you use `insertOne` or `insertMany` and is updated on
+ * `updateOne` and `updateMany`.
  */
 
 /**

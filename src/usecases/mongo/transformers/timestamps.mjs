@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb'
+
 /**
  * @template {import('../../../types.js').MongoDocument} T
  * @param {import('mongodb').WithId<T> | import('../../../types.js').MongoDocument} doc
@@ -12,7 +14,10 @@ export function timestampTransformer(doc, options) {
 
     if (doc.createdAt == null) {
         if (createdAt == 'fromId') {
-            doc.createdAt = doc._id.getTimestamp()
+            const _id = doc._id
+            if (_id instanceof ObjectId) {
+                doc.createdAt = _id.getTimestamp()
+            }
         } else if (createdAt == 'generate') {
             doc.createdAt = new Date()
         }
