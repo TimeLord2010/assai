@@ -86,6 +86,7 @@ export function createMongoCollection(name, options = {}) {
             return await insertOne({
                 doc,
                 getCollection,
+                collectionOptions,
             })
         },
         /**

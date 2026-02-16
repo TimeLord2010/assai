@@ -14,5 +14,6 @@ export function outputTransformer({
     if (collectionOptions) timestampTransformer(document, collectionOptions)
     idsIntoString(document)
     const transformedDoc = renameToDevId(document)
+
     return transformedDoc
 }

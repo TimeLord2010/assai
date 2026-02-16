@@ -50,6 +50,7 @@ describe('find', () => {
             }
         })
         assert.equal(docs.length, 1)
+        assert.equal(docs[0]._id, undefined)
     })
 
     it('should keep input ids as strings', async () => {

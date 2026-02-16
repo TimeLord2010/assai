@@ -26,6 +26,8 @@ export async function insertOne({ doc, collectionOptions, getCollection }) {
         id = id.toHexString()
     }
 
+    delete doc._id
+
     // @ts-ignore
     return { id, ...doc }
 }

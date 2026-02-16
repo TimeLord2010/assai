@@ -27,20 +27,6 @@ type GivenProjectionReturnType<T extends MongoDocument, P extends NonNullProject
 export type ProjectionReturnType<T extends MongoDocument, P extends Projection<T>> =
     P extends NonNullProjection<T> ? GivenProjectionReturnType<T, P> : T
 
-// export type ProjectionReturnType<T extends MongoDocument, P extends Projection<T>> =
-//     P extends Partial<Record<keyof T, 0>>
-//     ? {
-//         [K in keyof T as P[K] extends 0 ? never : K]: T[K]
-//     }
-//     : (P extends Partial<Record<keyof T, 0 | 1>> ? {
-//         [K in keyof T as P[K] extends 1 ? K : (
-//             K extends 'id' ? (
-//                 P[K] extends 0 ? never : K
-//             ) :
-//             never
-//         )]: T[K]
-//     } : T)
-
-export type FindOptions<T extends MongoDocument, K extends Projection<T>> = Omit<FO<T>, 'projection'> & {
+export type FindOptions<T extends MongoDocument, K extends Projection<T>> = Omit<FO, 'projection'> & {
     projection?: K
 }

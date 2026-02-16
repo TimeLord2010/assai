@@ -15,7 +15,7 @@ export function inputTransformer({
 
     const { timestamps } = collectionOptions ?? {}
     const { createdAt, updatedAt } = timestamps ?? {
-        createdAt: 'fromId',
+        createdAt: 'generate',
         updatedAt: 'generate',
     }
 

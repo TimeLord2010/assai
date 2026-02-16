@@ -6,7 +6,7 @@
 export function timestampTransformer(doc, options) {
     const { timestamps } = options
     const { createdAt, updatedAt } = timestamps ?? {
-        createdAt: 'fromId',
+        createdAt: 'generate',
         updatedAt: 'generate',
     }
 
