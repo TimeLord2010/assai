@@ -1,16 +1,20 @@
 import { Collection, ObjectId } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { inputTransformer } from '../transformers/input_transformer.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
  * @param {object} param
  * @param {import('../../../types.js').Optional<T, 'id'>} param.doc
  * @param {() => Promise<Collection<T>>} param.getCollection
+ * @param {import('../../../factories/create_mongo_collection.mjs').IcreateCollectionOptions<T>} [param.collectionOptions]
  * @returns {Promise<T>}
  */
-export async function insertOne({ doc, getCollection }) {
-    doc = renameToMongoId(doc)
-    stringsIntoId(doc)
+export async function insertOne({ doc, collectionOptions, getCollection }) {
+    doc = inputTransformer({
+        document: doc,
+        collectionOptions
+    })
+
     const col = await getCollection()
     const result = await col.insertOne(
         // @ts-ignore

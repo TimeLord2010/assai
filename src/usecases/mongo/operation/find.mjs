@@ -1,11 +1,10 @@
 import { Collection } from 'mongodb'
 import {
-    idsIntoString,
     renameFindOptions,
-    renameToDevId,
     renameToMongoId,
     stringsIntoId
 } from '../transformers/index.mjs'
+import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
@@ -14,9 +13,10 @@ import {
  * @param {() => Promise<Collection<T>>} parameter.getCollection
  * @param {import('mongodb').Filter<T>} parameter.query
  * @param {import('../../../types.js').FindOptions<T, K>} [parameter.options]
+ * @param {import('../../../factories/create_mongo_collection.mjs').IcreateCollectionOptions<T>} [parameter.collectionOptions]
  * @returns {Promise<T[]>}
  */
-export async function find({ getCollection, query, options }) {
+export async function find({ getCollection, query, options, collectionOptions }) {
     query = renameToMongoId(query)
     options = renameFindOptions(options)
 
@@ -26,9 +26,10 @@ export async function find({ getCollection, query, options }) {
 
     const docs = await col.find(query, options).toArray()
     const fixedDocs = docs.map((doc) => {
-        idsIntoString(doc)
-        const transformedDoc = renameToDevId(doc)
-        return transformedDoc
+        return outputTransformer({
+            document: doc,
+            collectionOptions,
+        })
     })
     return fixedDocs
 }

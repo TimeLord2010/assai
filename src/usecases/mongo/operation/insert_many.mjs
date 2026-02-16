@@ -1,14 +1,15 @@
 import { Collection, ObjectId } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { inputTransformer } from '../transformers/input_transformer.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
  * @param {object} param
  * @param {import('../../../types.js').Optional<T, 'id'>[]} param.docs
  * @param {() => Promise<Collection<T>>} param.getCollection
+ * @param {import('../../../factories/create_mongo_collection.mjs').IcreateCollectionOptions<T>} param.collectionOptions
  * @returns {Promise<T[]>}
  */
-export async function insertMany({ docs, getCollection }) {
+export async function insertMany({ docs, collectionOptions, getCollection }) {
     if (docs.length == 0) return []
 
     // We need to clone the array to prevent the function from changing the original input object.
@@ -16,8 +17,10 @@ export async function insertMany({ docs, getCollection }) {
     docs = [...docs]
 
     for (let i = 0; i < docs.length; i++) {
-        docs[i] = renameToMongoId(docs[i])
-        stringsIntoId(docs[i])
+        docs[i] = inputTransformer({
+            document: docs[i],
+            collectionOptions: collectionOptions
+        })
     }
     const col = await getCollection()
     const result = await col.insertMany(

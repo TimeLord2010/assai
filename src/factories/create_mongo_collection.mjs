@@ -23,7 +23,7 @@ export function createMongoCollection(name, options = {}) {
 
     /** @type {Collection<T> | null} */
     let _collection = null
-    const { validator } = options
+    const collectionOptions = options
 
     async function getCollection() {
         const {
@@ -51,31 +51,6 @@ export function createMongoCollection(name, options = {}) {
         return _collection
     }
 
-    /**
-     *
-     * @param {import('../types.js').Optional<T, 'id'>} doc
-     */
-    function validate(doc) {
-        if (validator == null) {
-            return
-        }
-        if (typeof validator == 'function') {
-            return validator(doc)
-        } else {
-            for (const [field, fieldValidator] of Object.entries(validator)) {
-                if (!fieldValidator) {
-                    continue
-                }
-                const value = fieldValidator(doc[field])
-                if (value) {
-                    // @ts-ignore
-                    doc[field] = value
-                }
-            }
-            return doc
-        }
-    }
-
     return {
         /**
          * Returns the native driver.
@@ -91,7 +66,9 @@ export function createMongoCollection(name, options = {}) {
          * @param {import('../types.js').FindOptions<T, K>} options
          * @returns {Promise<T[]>}
          */
-        find: async (query, options = {}) => await find({ query, options, getCollection }),
+        find: async (query, options = {}) => {
+            return await find({ query, options, getCollection, collectionOptions })
+        },
         /**
          * @template {import('../types.js').Projection<T> | undefined} K
          * @param {import('mongodb').Filter<T>} query
@@ -99,17 +76,13 @@ export function createMongoCollection(name, options = {}) {
          * @returns {Promise<T | null>}
          */
         findOne: async (query, options = {}) => {
-            return await findOne({ query, options, getCollection })
+            return await findOne({ query, options, collectionOptions, getCollection })
         },
         /**
          * @param {import('../types.js').Optional<T, 'id'>} doc
          * @returns {Promise<T>}
          */
         insertOne: async (doc) => {
-            const result = validate(doc)
-            if (result) {
-                doc = result
-            }
             return await insertOne({
                 doc,
                 getCollection,
@@ -120,7 +93,7 @@ export function createMongoCollection(name, options = {}) {
          * @param {import('../types.js').Optional<T, 'id'>[]} docs
          * @returns {Promise<T[]>}
          */
-        insertMany: async (docs) => await insertMany({ docs, getCollection }),
+        insertMany: async (docs) => await insertMany({ docs, collectionOptions, getCollection }),
         /**
          * @param {import('mongodb').Filter<T>} query
          * @returns {Promise<boolean>}
@@ -144,7 +117,7 @@ export function createMongoCollection(name, options = {}) {
          * @param {import('mongodb').UpdateOptions} [options]
          */
         updateOne: async (query, update, options) => await updateOne({
-            query, update, options, getCollection,
+            query, update, options, collectionOptions, getCollection,
         }),
         /**
          * @param {import('mongodb').Filter<T>} query
@@ -152,7 +125,7 @@ export function createMongoCollection(name, options = {}) {
          * @param {import('mongodb').UpdateOptions} [options]
          */
         updateMany: async (query, update, options) => await updateMany({
-            query, update, options, getCollection,
+            query, update, options, collectionOptions, getCollection,
         })
     }
 }
@@ -193,23 +166,13 @@ export function createMongoCollection(name, options = {}) {
  *
  * @property {import('mongodb').DbOptions} [options] The options used when initializing the client.
  *
- * @property {IfieldValidator<T> | IgenericValidator<T>} [validator]
+ * @property {ItimestampConfiguration} [timestamps]
  */
 
 /**
- * @template T
- * @typedef {Partial<Record<keyof T, ((prop: any) => any)>>} IfieldValidator
- */
-
-/**
- * @template T
- * @callback IgenericValidator
- * The validator function used in insert operations.
- * This function should throw an exception if the validation fails.
- * @param {*} doc
- * @returns {T | null} The validator can return the desired document. Or null.
- *
- * If null is returned, the input parameter will be used normaly in inserts.
+ * @typedef {object} ItimestampConfiguration
+ * @property {'fromId' | 'generate' | 'none'} createdAt
+ * @property {'generate' | 'none'} updatedAt
  */
 
 /**
