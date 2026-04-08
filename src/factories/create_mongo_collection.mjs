@@ -14,8 +14,7 @@ import {
  * This method will read the string DATABASE_URL to create a connection. If you have it in another
  * location, you will need to pass it at `connectionString` property inside the options parameter.
  *
- * The connection is cached by default. Use `collectionGetter` and `cachedCollectionGetter` to
- * customize this behavior.
+ * The connection is cached by default. Use `collectionGetter` to customize this behavior.
  * @template {import('../types.js').MongoDocument} T
  * @param {string} name
  * @param {IcreateCollectionOptions<T>} [options]
@@ -29,7 +28,7 @@ export function createMongoCollection(name, options = {}) {
     async function getCollection() {
         const {
             connectionString, dbName, options: createOptions,
-            cachableCollectionGetter, collectionGetter,
+            collectionGetter,
         } = options
 
         // Connection getter from options
@@ -37,12 +36,6 @@ export function createMongoCollection(name, options = {}) {
 
         // Checking cache
         if (_collection) return _collection
-
-        // Cache function from options
-        if (cachableCollectionGetter != null) {
-            _collection = await cachableCollectionGetter()
-            return _collection
-        }
 
         // Default connection getter
         const client = await getClient({ connectionString })
@@ -199,14 +192,6 @@ export function createMongoCollection(name, options = {}) {
  * Example:
  * ```js
  * collectionGetter: async () => await getMyCollection()
- * ```
- *
- * @property {IcollectionGetter<T>} [options.cachableCollectionGetter]
- * Same as `collectionGetter`. But the object is cached.
- *
- * Example:
- * ```js
- * cachableCollectionGetter: async () => await getMyCollection()
  * ```
  *
  * @property {string} [options.connectionString]
