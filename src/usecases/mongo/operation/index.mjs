@@ -1,4 +1,6 @@
 export * from './additional/index.mjs'
+export * from './aggregate.mjs'
+export * from './bulk_write.mjs'
 export * from './count.mjs'
 export * from './delete_many.mjs'
 export * from './delete_one.mjs'

@@ -11,7 +11,8 @@
   "scripts": {
     "prepare": "rm -rf dist && tsc -p ./jsconfig.prod.json",
     "start": "node --env-file=.env index.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "check": "tsc -p jsconfig.json"
   },
   "keywords": [
     "mongodb",

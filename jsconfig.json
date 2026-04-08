@@ -1,20 +1,17 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "checkJs": true,
-        "strictNullChecks": true,
-        "module": "ES2022",
-        "target": "ES2022",
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "declaration": true,
-        "strictPropertyInitialization": true,
-        "lib": [
-            "ES2022"
-        ],
-        "baseUrl": "./",
-        "noEmit": false,
-        "emitDeclarationOnly": true,
-        "outDir": "dist"
-    },
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "strictNullChecks": true,
+    "module": "nodenext",
+    "target": "ES2022",
+    "moduleResolution": "nodenext",
+    "sourceMap": true,
+    "declaration": true,
+    "strictPropertyInitialization": true,
+    "lib": ["ES2022"],
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "dist"
+  }
 }

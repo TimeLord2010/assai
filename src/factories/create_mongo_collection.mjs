@@ -1,5 +1,6 @@
 import { Collection } from 'mongodb'
 import {
+    aggregate, bulkWrite,
     count, deleteMany, deleteOne,
     deleteOneOrThrow,
     find, findOne,
@@ -127,7 +128,22 @@ export function createMongoCollection(name, options = {}) {
          */
         updateMany: async (query, update, options) => await updateMany({
             query, update, options, collectionOptions, getCollection,
-        })
+        }),
+        /**
+         * @param {import('mongodb').Document[]} pipeline
+         * @param {import('mongodb').AggregateOptions} [options]
+         * @returns {Promise<T[]>}
+         */
+        aggregate: async (pipeline, options) => await aggregate({
+            pipeline, options, getCollection, collectionOptions,
+        }),
+        /**
+         * @param {import('mongodb').AnyBulkWriteOperation<T>[]} operations
+         * @param {import('mongodb').BulkWriteOptions} [options]
+         */
+        bulkWrite: async (operations, options) => await bulkWrite({
+            operations, options, getCollection, collectionOptions,
+        }),
     }
 }
 
