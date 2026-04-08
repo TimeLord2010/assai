@@ -3,7 +3,7 @@ import {
     aggregate, bulkWrite,
     count, deleteMany, deleteOne,
     deleteOneOrThrow,
-    find, findOne,
+    find, findOne, findOneAndDelete, findOneAndReplace, findOneAndUpdate,
     getClient,
     insertMany, insertOne, updateMany, updateOne
 } from '../usecases/mongo/index.mjs'
@@ -143,6 +143,39 @@ export function createMongoCollection(name, options = {}) {
          */
         bulkWrite: async (operations, options) => await bulkWrite({
             operations, options, getCollection, collectionOptions,
+        }),
+        /**
+         * Atomically finds a document, applies the update, and returns the document.
+         * By default returns the document as it was **before** the update.
+         * Pass `{ returnDocument: 'after' }` in options to get the updated version.
+         * @param {import('mongodb').Filter<T>} query
+         * @param {import('mongodb').UpdateFilter<T>} update
+         * @param {import('mongodb').FindOneAndUpdateOptions} [options]
+         * @returns {Promise<T | null>}
+         */
+        findOneAndUpdate: async (query, update, options) => await findOneAndUpdate({
+            query, update, options, getCollection, collectionOptions,
+        }),
+        /**
+         * Atomically finds a document, deletes it, and returns the deleted document.
+         * @param {import('mongodb').Filter<T>} query
+         * @param {import('mongodb').FindOneAndDeleteOptions} [options]
+         * @returns {Promise<T | null>}
+         */
+        findOneAndDelete: async (query, options) => await findOneAndDelete({
+            query, options, getCollection, collectionOptions,
+        }),
+        /**
+         * Atomically finds a document, replaces it with `replacement`, and returns a document.
+         * By default returns the document as it was **before** the replacement.
+         * Pass `{ returnDocument: 'after' }` in options to get the new version.
+         * @param {import('mongodb').Filter<T>} query
+         * @param {import('mongodb').WithoutId<T>} replacement
+         * @param {import('mongodb').FindOneAndReplaceOptions} [options]
+         * @returns {Promise<T | null>}
+         */
+        findOneAndReplace: async (query, replacement, options) => await findOneAndReplace({
+            query, replacement, options, getCollection, collectionOptions,
         }),
     }
 }
