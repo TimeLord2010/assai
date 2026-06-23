@@ -17,5 +17,7 @@ export async function mockGetCollection(collectionName = 'test') {
  * @property {string | ObjectId} [tag]
  * @property {Date} [createdAt]
  * @property {object[]} [posts]
+ * @property {number} [score]
+ * @property {string} [group]
  * @property {object} [address]
  */

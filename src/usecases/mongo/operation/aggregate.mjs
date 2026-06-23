@@ -12,15 +12,10 @@ import { outputTransformer } from '../transformers/output_transformer.mjs'
  * @returns {Promise<T[]>}
  */
 export async function aggregate({ getCollection, pipeline, options, collectionOptions }) {
-    for (const stage of pipeline) {
-        if (stage.$match != null) {
-            stage.$match = renameToMongoId(stage.$match)
-        }
-    }
-    pipeline = stringsIntoId(pipeline)
+    const finalPipeline = stringsIntoId(renameToMongoId(pipeline))
 
     const col = await getCollection()
-    const docs = await col.aggregate(pipeline, options).toArray()
+    const docs = await col.aggregate(finalPipeline, options).toArray()
     // @ts-ignore
     return docs.map((doc) => outputTransformer({ document: doc, collectionOptions }))
 }
