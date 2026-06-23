@@ -1,5 +1,6 @@
 import { Collection, ObjectId } from 'mongodb'
 import { inputTransformer } from '../transformers/input_transformer.mjs'
+import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
@@ -30,11 +31,16 @@ export async function insertMany({ docs, collectionOptions, getCollection }) {
     let { insertedIds } = result
     const indexes = Object.keys(insertedIds)
     for (const index of indexes) {
+        // @ts-ignore
         const id = insertedIds[index]
         if (id instanceof ObjectId) {
+            // @ts-ignore
             docs[index].id = id.toHexString()
         }
     }
-    // @ts-ignore
-    return docs
+    return docs.map(doc => outputTransformer({
+        // @ts-ignore
+        document: doc,
+        collectionOptions
+    }))
 }

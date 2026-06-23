@@ -1,5 +1,6 @@
 import { Collection, ObjectId } from 'mongodb'
 import { inputTransformer } from '../transformers/input_transformer.mjs'
+import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
@@ -26,8 +27,12 @@ export async function insertOne({ doc, collectionOptions, getCollection }) {
         id = id.toHexString()
     }
 
-    delete doc._id
-
     // @ts-ignore
-    return { id, ...doc }
+    doc.id = id
+
+    return outputTransformer({
+        // @ts-ignore
+        document: doc,
+        collectionOptions,
+    })
 }
