@@ -24,6 +24,7 @@ export function renameToMongoId(obj) {
     }
 
     let hasChanges = false
+    /** @type {Record<string, any>} */
     const transformed = {}
     for (const [key, value] of Object.entries(obj)) {
         const newKey = key === 'id' ? '_id' : key
