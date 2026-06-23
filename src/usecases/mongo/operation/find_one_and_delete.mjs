@@ -13,7 +13,7 @@ import { outputTransformer } from '../transformers/output_transformer.mjs'
  */
 export async function findOneAndDelete({ query, options, collectionOptions, getCollection }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
+    query = stringsIntoId(query)
     const col = await getCollection()
 
     const doc = await col.findOneAndDelete(query, options ?? {})

@@ -20,7 +20,7 @@ export async function find({ getCollection, query, options, collectionOptions })
     query = renameToMongoId(query)
     options = renameFindOptions(options)
 
-    stringsIntoId(query)
+    query = stringsIntoId(query)
 
     const col = await getCollection()
 

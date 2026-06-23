@@ -10,7 +10,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  */
 export async function deleteOne({ query, getCollection }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
+    query = stringsIntoId(query)
     const col = await getCollection()
     const r = await col.deleteOne(query)
     return r.deletedCount > 0

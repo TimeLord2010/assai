@@ -1,6 +1,11 @@
 import { ObjectId } from 'mongodb'
 
 /**
+ * Transforms a document by adding or updating timestamp fields (createdAt and updatedAt).
+ * If createdAt is not set, it can be generated as a new Date or extracted from the document's ObjectId.
+ * If updatedAt is not set, it is generated as a new Date.
+ * The document is modified in place.
+ *
  * @template {import('../../../types.js').MongoDocument} T
  * @param {import('mongodb').WithId<T> | import('../../../types.js').MongoDocument} doc
  * @param {import('../../../factories/create_mongo_collection.mjs').IcreateCollectionOptions<T>} options

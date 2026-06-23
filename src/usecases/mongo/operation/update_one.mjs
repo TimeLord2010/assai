@@ -13,8 +13,8 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  */
 export async function updateOne({ query, update, options, collectionOptions, getCollection }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
-    stringsIntoId(update)
+    query = stringsIntoId(query)
+    update = stringsIntoId(update)
     const col = await getCollection()
 
     const { timestamps } = collectionOptions ?? {}

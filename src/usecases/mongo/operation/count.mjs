@@ -9,7 +9,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  */
 export async function count({ getCollection, query }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
+    query = stringsIntoId(query)
 
     const col = await getCollection()
     const count = await col.countDocuments(query)

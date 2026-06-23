@@ -12,8 +12,8 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  */
 export async function updateMany({ query, update, options, collectionOptions, getCollection }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
-    stringsIntoId(update)
+    query = stringsIntoId(query)
+    update = stringsIntoId(update)
 
     const { timestamps } = collectionOptions ?? {}
     const { updatedAt } = timestamps ?? {

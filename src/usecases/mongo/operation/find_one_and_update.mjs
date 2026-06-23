@@ -14,8 +14,8 @@ import { outputTransformer } from '../transformers/output_transformer.mjs'
  */
 export async function findOneAndUpdate({ query, update, options, collectionOptions, getCollection }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
-    stringsIntoId(update)
+    query = stringsIntoId(query)
+    update = stringsIntoId(update)
     const col = await getCollection()
 
     const { timestamps } = collectionOptions ?? {}

@@ -28,8 +28,8 @@
   ],
   "author": "Vinícius Gabriel",
   "license": "ISC",
-  "dependencies": {
-    "mongodb": "^7.0.0"
+  "peerDependencies": {
+    "mongodb": ">=4.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

@@ -11,7 +11,7 @@ export function inputTransformer({
     document, collectionOptions,
 }) {
     document = renameToMongoId(document)
-    stringsIntoId(document)
+    document = stringsIntoId(document)
 
     const { timestamps } = collectionOptions ?? {}
     const { createdAt, updatedAt } = timestamps ?? {

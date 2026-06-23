@@ -21,22 +21,22 @@ export async function bulkWrite({ getCollection, operations, options, collection
             })
         } else if (o.updateOne != null) {
             o.updateOne.filter = renameToMongoId(o.updateOne.filter)
-            stringsIntoId(o.updateOne.filter)
-            stringsIntoId(o.updateOne.update)
+            o.updateOne.filter = stringsIntoId(o.updateOne.filter)
+            o.updateOne.update = stringsIntoId(o.updateOne.update)
         } else if (o.updateMany != null) {
             o.updateMany.filter = renameToMongoId(o.updateMany.filter)
-            stringsIntoId(o.updateMany.filter)
-            stringsIntoId(o.updateMany.update)
+            o.updateMany.filter = stringsIntoId(o.updateMany.filter)
+            o.updateMany.update = stringsIntoId(o.updateMany.update)
         } else if (o.deleteOne != null) {
             o.deleteOne.filter = renameToMongoId(o.deleteOne.filter)
-            stringsIntoId(o.deleteOne.filter)
+            o.deleteOne.filter = stringsIntoId(o.deleteOne.filter)
         } else if (o.deleteMany != null) {
             o.deleteMany.filter = renameToMongoId(o.deleteMany.filter)
-            stringsIntoId(o.deleteMany.filter)
+            o.deleteMany.filter = stringsIntoId(o.deleteMany.filter)
         } else if (o.replaceOne != null) {
             o.replaceOne.filter = renameToMongoId(o.replaceOne.filter)
-            stringsIntoId(o.replaceOne.filter)
-            stringsIntoId(o.replaceOne.replacement)
+            o.replaceOne.filter = stringsIntoId(o.replaceOne.filter)
+            o.replaceOne.replacement = stringsIntoId(o.replaceOne.replacement)
         }
     }
 

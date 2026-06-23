@@ -9,7 +9,7 @@ import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
  */
 export async function deleteMany({ query, getCollection }) {
     query = renameToMongoId(query)
-    stringsIntoId(query)
+    query = stringsIntoId(query)
     const col = await getCollection()
     const r = await col.deleteMany(query)
     return r.deletedCount
