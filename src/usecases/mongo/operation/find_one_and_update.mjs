@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId, transformOptions } from '../transformers/index.mjs'
 import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
@@ -32,6 +32,8 @@ export async function findOneAndUpdate({ query, update, options, collectionOptio
             update.$set = { updatedAt: new Date() }
         }
     }
+
+    options = transformOptions(options)
 
     const doc = await col.findOneAndUpdate(query, update, options ?? {})
     if (doc == null) return null

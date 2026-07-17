@@ -2,7 +2,8 @@ import { Collection } from 'mongodb'
 import {
     renameFindOptions,
     renameToMongoId,
-    stringsIntoId
+    stringsIntoId,
+    transformOptions
 } from '../transformers/index.mjs'
 import { outputTransformer } from '../transformers/output_transformer.mjs'
 
@@ -19,6 +20,7 @@ import { outputTransformer } from '../transformers/output_transformer.mjs'
 export async function find({ getCollection, query, options, collectionOptions }) {
     query = renameToMongoId(query)
     options = renameFindOptions(options)
+    options = transformOptions(options)
 
     query = stringsIntoId(query)
 

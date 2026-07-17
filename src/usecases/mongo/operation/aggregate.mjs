@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId, transformOptions } from '../transformers/index.mjs'
 import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
@@ -15,6 +15,7 @@ export async function aggregate({ getCollection, pipeline, options, collectionOp
     const finalPipeline = stringsIntoId(renameToMongoId(pipeline))
 
     const col = await getCollection()
+    options = transformOptions(options)
     const docs = await col.aggregate(finalPipeline, options).toArray()
     // @ts-ignore
     return docs.map((doc) => outputTransformer({ document: doc, collectionOptions }))

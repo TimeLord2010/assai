@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId, transformOptions } from '../transformers/index.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
@@ -35,6 +35,8 @@ export async function updateOne({ query, update, options, collectionOptions, get
             }
         }
     }
+
+    options = transformOptions(options)
 
     const r = await col.updateOne(query, update, options)
     return r.matchedCount > 0

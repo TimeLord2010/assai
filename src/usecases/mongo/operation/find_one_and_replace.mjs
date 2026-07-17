@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId, transformOptions } from '../transformers/index.mjs'
 import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
@@ -16,6 +16,8 @@ export async function findOneAndReplace({ query, replacement, options, collectio
     query = renameToMongoId(query)
     query = stringsIntoId(query)
     const col = await getCollection()
+
+    options = transformOptions(options)
 
     const doc = await col.findOneAndReplace(query, replacement, options ?? {})
     if (doc == null) return null

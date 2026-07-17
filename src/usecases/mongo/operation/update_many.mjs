@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId, transformOptions } from '../transformers/index.mjs'
 
 /**
  * @template {import('../../../types.js').MongoDocument} T
@@ -33,6 +33,8 @@ export async function updateMany({ query, update, options, collectionOptions, ge
             }
         }
     }
+
+    options = transformOptions(options)
 
     const col = await getCollection()
     const r = await col.updateMany(query, update, options)

@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { renameToMongoId, stringsIntoId } from '../transformers/index.mjs'
+import { renameToMongoId, stringsIntoId, transformOptions } from '../transformers/index.mjs'
 import { outputTransformer } from '../transformers/output_transformer.mjs'
 
 /**
@@ -15,6 +15,8 @@ export async function findOneAndDelete({ query, options, collectionOptions, getC
     query = renameToMongoId(query)
     query = stringsIntoId(query)
     const col = await getCollection()
+
+    options = transformOptions(options)
 
     const doc = await col.findOneAndDelete(query, options ?? {})
     if (doc == null) return null
